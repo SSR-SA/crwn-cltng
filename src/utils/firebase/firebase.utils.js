@@ -8,7 +8,7 @@ import {
 
 // setdoc => Setting the document's data
 // getdoc => Getting the document's data
-import { getFirestore, doc, setdoc, getdoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDyeyrU0Zjby2a-ieLE1Jh-i2mTLVShDj0",
@@ -44,4 +44,21 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 
   console.log(userSnapshot);
   console.log(userSnapshot.exists());
+
+  // If the user data does not exist
+  // Create / set the document with the data from userAuth in my collection
+  if (!userSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(userDocRef, { displayName, email, createdAt });
+    } catch (error) {
+      console.log(`There was an error creating the user: ${error.message}`);
+    }
+
+    // If user data exists
+    // Return user data
+    return userDocRef;
+  }
 };
