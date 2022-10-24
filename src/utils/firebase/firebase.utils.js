@@ -48,13 +48,13 @@ export const createUserDocumentFromAuth = async (
 
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  console.log(userDocRef);
+  // console.log(userDocRef);
 
   //   userSnapshot = User Data
   const userSnapshot = await getDoc(userDocRef);
 
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
+  // console.log(userSnapshot);
+  // console.log(userSnapshot.exists());
 
   // If the user data does not exist
   // Create / set the document with the data from userAuth in my collection
