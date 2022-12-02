@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   signInWithRedirect,
@@ -8,19 +8,26 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-} from "firebase/auth";
+} from 'firebase/auth';
 
 // setdoc => Setting the document's data
 // getdoc => Getting the document's data
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  writeBatch,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDyeyrU0Zjby2a-ieLE1Jh-i2mTLVShDj0",
-  authDomain: "crwn-cltng-db-44529.firebaseapp.com",
-  projectId: "crwn-cltng-db-44529",
-  storageBucket: "crwn-cltng-db-44529.appspot.com",
-  messagingSenderId: "633811211388",
-  appId: "1:633811211388:web:07aa52f5d458cc558ce5f9",
+  apiKey: 'AIzaSyDyeyrU0Zjby2a-ieLE1Jh-i2mTLVShDj0',
+  authDomain: 'crwn-cltng-db-44529.firebaseapp.com',
+  projectId: 'crwn-cltng-db-44529',
+  storageBucket: 'crwn-cltng-db-44529.appspot.com',
+  messagingSenderId: '633811211388',
+  appId: '1:633811211388:web:07aa52f5d458cc558ce5f9',
 };
 
 // Initialize Firebase
@@ -30,7 +37,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 
 googleProvider.setCustomParameters({
-  prompt: "select_account",
+  prompt: 'select_account',
 });
 
 export const auth = getAuth();
@@ -41,6 +48,24 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
+// Pushing our locak data to firestore
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  // Creating a collection => get collection within the DB
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('DONE');
+};
+
 // Creating a user info from his/her authentication process
 export const createUserDocumentFromAuth = async (
   userAuth,
@@ -48,7 +73,7 @@ export const createUserDocumentFromAuth = async (
 ) => {
   if (!userAuth) return;
 
-  const userDocRef = doc(db, "users", userAuth.uid);
+  const userDocRef = doc(db, 'users', userAuth.uid);
 
   // console.log(userDocRef);
 
