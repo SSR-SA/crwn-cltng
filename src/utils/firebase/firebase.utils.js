@@ -53,15 +53,19 @@ export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd
 ) => {
-  // Creating a collection => get collection within the DB
+  // collectionRef = This is the collection key we will have in the firesotre datebase. EX - categoreis, users, etc...
   const collectionRef = collection(db, collectionKey);
+  // writeBatch method is used to push all the local data to the db in one successful transaction
   const batch = writeBatch(db);
 
   objectsToAdd.forEach((object) => {
+    //  docRef is the document reference for a collection in lowercase alphabets in firestore
     const docRef = doc(collectionRef, object.title.toLowerCase());
+    // Once the document is selected from local storage, we set the data to firestore
     batch.set(docRef, object);
   });
 
+  // await until the data is stored in firestore
   await batch.commit();
   console.log('DONE');
 };
