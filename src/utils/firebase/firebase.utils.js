@@ -19,6 +19,8 @@ import {
   getDoc,
   collection,
   writeBatch,
+  query,
+  getDocs,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -68,6 +70,22 @@ export const addCollectionAndDocuments = async (
   // await until the data is stored in firestore
   await batch.commit();
   console.log('DONE');
+};
+
+// Retrieve categories from firebase
+export const getCategoriesAndDocuments = async () => {
+  // collectionRef = This is the collection key we will have in the firesotre datebase. EX - categoreis, users, etc...
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, []);
+
+  return categoryMap;
 };
 
 // Creating a user info from his/her authentication process
