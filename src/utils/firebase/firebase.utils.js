@@ -24,12 +24,12 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAo1GWjAc-dBNfAYo4mXPlR3mY_BiWiupc',
-  authDomain: 'crwn-cltng-v1-d5c2a.firebaseapp.com',
-  projectId: 'crwn-cltng-v1-d5c2a',
-  storageBucket: 'crwn-cltng-v1-d5c2a.appspot.com',
-  messagingSenderId: '572696598560',
-  appId: '1:572696598560:web:73d19bce14e4671d904445',
+  apiKey: 'AIzaSyAyzADI-9K03fXyNZm0J6Xb-PDWeqI7tRY',
+  authDomain: 'crwn-cltng-v2.firebaseapp.com',
+  projectId: 'crwn-cltng-v2',
+  storageBucket: 'crwn-cltng-v2.appspot.com',
+  messagingSenderId: '833982584772',
+  appId: '1:833982584772:web:aaa103b531f72971b17691',
 };
 
 // Initialize Firebase
